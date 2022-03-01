@@ -22,8 +22,8 @@ $(function() {
     const backgroundTrade = true;   // stops the trade window from popping up when the
 
     const sellItemsAndLimits = [ // Put each item you want to sell here, and the limit (minimum amount that will NOT be sold)
-         ['Sugar', 9],
-         ['Sugarcane', 9],
+         ['Sugar', 0], // turn up later in game
+         ['Sugarcane', 9], // turn down later in game
          ['Peppermint', 9],
          ['Candy_Canes', 9],
          ['Energy',99], // turn down later in game
