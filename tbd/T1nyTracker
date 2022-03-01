@@ -1,0 +1,108 @@
+
+Tampermonkey® by Jan Biniok
+v4.14
+
+TownStar Star Tracker
+by d4nc3r
+1
+// ==UserScript==
+2
+// @name         TownStar Star Tracker
+3
+// @namespace    mailto:7iny.d4nc3r@gmail.com
+4
+// @version      220115.1
+5
+// @description  HUD for current rank and points per hour and also apparently production rates of crafts
+6
+// @author       d4nc3r
+7
+// @match        https://townstar.sandbox-games.com/launch
+8
+// @run-at       document-start
+9
+// ==/UserScript==
+10
+​
+11
+(function() {
+12
+    'use strict';
+13
+    const craftsToTrack = [
+14
+        { craft: 'Wood', interval: 1, intervalType: 'min' },
+15
+        { craft: 'Sugarcane', interval: 1, intervalType: 'min' },
+16
+        { craft: 'Peppermint', interval: 1, intervalType: 'min' },
+17
+        { craft: 'Sugar', interval: 5, intervalType: 'min' },
+18
+        { craft: 'Candy_Canes', interval: 5, intervalType: 'min' },
+19
+//        { craft: 'Candy_Canes', interval: 10, intervalType: 'min' },
+20
+        // { craft: 'Energy', interval: 5, intervalType: 'min' },
+21
+        // { craft: 'Gasoline', interval: 5, intervalType: 'min' },
+22
+        //{ craft: 'Brine', interval: 1, intervalType: 'min' },
+23
+        //{ craft: 'Salt', interval: 20, intervalType: 'min' },
+24
+        //{ craft: 'Oak_Wood', interval: 1, intervalType: 'min' },
+25
+       // { craft: 'Lumber', interval: 10, intervalType: 'min' },
+26
+        //{ craft: 'Oak_Barrel', interval: 10, intervalType: 'min' },
+27
+        //{ craft: 'Iron', interval: 10, intervalType: 'min' },
+28
+        //{ craft: 'Chromium', interval: 10, intervalType: 'min' },
+29
+        //{ craft: 'Limestone', interval: 10, intervalType: 'min' },
+30
+        //{ craft: 'Wine_Bottle', interval: 10, intervalType: 'min' },
+31
+        //{ craft: 'Pinot_Noir_Grapes', interval: 10, intervalType: 'min' },
+32
+        //{ craft: 'Pinot_Noir', interval: 10, intervalType: 'min' },
+33
+    ];
+34
+​
+35
+    /*
+36
+    Starts running after Game is available
+37
+    */
+38
+    const LOCAL_STORAGE={get:t=>{try{return localStorage.getItem(t)}catch(t){return}},set:(t,e)=>{try{return localStorage.setItem(t,e)}catch(t){return}},remove:t=>{try{return localStorage.removeItem(t)}catch(t){return}}};
+39
+    //console.log(testbaseUri);
+40
+​
+41
+    let monitoringActive = false;
+42
+    new MutationObserver(function(mutations){
+43
+         // console.log(testbaseUri);
+44
+        if(typeof Game != 'undefined' && Game.town && document.querySelector('.hud .top .right-hud')) {
+45
+            if(!monitoringActive) {
+46
+                monitoringActive = true;
+47
+                document.querySelector('.hud .top .right-hud').style.height = '115px';
+48
+                const pphEl = document.createElement('p');
+49
+                pphEl.id = 'points-data';
+50
+                pphEl.innerText = 'loading...';
+51
+                const myHudEl = document.createElement('div');

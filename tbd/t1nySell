@@ -1,0 +1,90 @@
+// ==UserScript==
+// @name         Town Star Auto-Sell
+// @namespace    mailto:7iny.d4nc3r@gmail.com
+// @version      1.0
+// @description  A rewritten version of a TownStar Auto-Sell script by MrCelticFox, updated to include Express Depot and provide HUD warning if sell Item amounts could cause storage overflow
+// @author       5mu3_
+// @match        https://townstar.sandbox-games.com/launch
+// @run-at       document-start
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    console.log(`Starting auto-sell on ${document.URL}`);
+    console.info('Coming soon! HUD warning of possible storage overflow!');
+    const sellTimer = 35; // Seconds between attempting a sale
+    const gasLimit = 5; // Won't initiate a sale if gas quantity drops to this level
+    const itemsToSell = [
+        { craft: 'Wood',  minAmt:39 },
+        { craft: 'Energy', minAmt:9 },
+        { craft: 'Sugar', minAmt: 18 },
+        { craft: 'Sugarcane', minAmt: 13 },
+        { craft: 'Gasoline', minAmt: 18 },
+        { craft: 'Petroleum', minAmt: 11 },
+        { craft: 'Candy_Canes', minAmt: 10 },
+        { craft: 'Peppermint', minAmt: 8 },
+    ];
+
+    const incrementedIndex = (i, arrayLength) => (i < arrayLength - 1) ? i + 1 : 0;
+    const getFindCraftFn = (start) => (sellItem,i) => {
+        const isAvailToSell = Game.town.GetStoredCrafts()[sellItem.craft] >= sellItem.minAmt + 10;
+        return i >= start && isAvailToSell;
+    };
+
+    // Initial values
+    let itemIndex = 0;
+    let depotIndex = 0;
+    let availableDepots = [];
+    let sellingActive = false;
+
+    /*
+    Handles basic game functions like automatically clicking 'play' when the page is refreshed
+    */
+    new MutationObserver(function(mutations){
+        if (document.getElementById("playnow-container") && document.getElementById("playnow-container").style.visibility !== "hidden") {
+            document.getElementById("playButton").click();
+        }
+        if (typeof Game != 'undefined' && Game.town != null) {
+            if(!sellingActive) {
+              sellingActive = true;
+              activateSelling();
+            }
+        }
+    }).observe(document, {attributes: true, childList: true , subtree: true});
+
+    /*
+    The main selling function
+    */
+    function activateSelling() {
+        const availableDepots = [...Game.town.FindObjectsOfType('Express_Depot'), ...Game.town.FindObjectsOfType('Trade_Depot')];
+        console.log(`there are ${availableDepots.length} available depots`);
+
+        window.mySellTimer = setInterval(function(){
+            let depotObj = availableDepots[depotIndex];
+            depotObj.logicObject.OnTapped(); // Collect reward from previous time if there is one
+
+            if (Game.town.GetStoredCrafts()['Gasoline'] > gasLimit) { // check that gas is available
+                const itemToSell = itemsToSell.find(getFindCraftFn(itemIndex)) || itemsToSell.find(getFindCraftFn(0));
+
+                if (itemToSell) {
+                    console.log(`Selling ${itemToSell.craft}...`);
+                    Game.app.fire("SellClicked", {x: depotObj.townX, z: depotObj.townZ});
+                    setTimeout(() => {
+                        let craftTarget = document.getElementById("trade-craft-target");
+                        craftTarget.querySelector(`[data-name="${itemToSell.craft}"]`).click();
+                        setTimeout(() => {
+                            document.getElementById("destination-target").getElementsByClassName("destination")[0].getElementsByClassName("sell-button")[0].click();
+                        }, 2000);
+                    }, 3000);
+
+                    depotIndex = incrementedIndex(depotIndex, availableDepots.length);
+                    itemIndex = incrementedIndex(itemIndex, itemsToSell.length);
+                }
+            }
+            else {
+                console.warn('Not enough fuel for auto-sell!');
+            }
+        }, sellTimer*1000);
+    }
+
+})();
