@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         5mu3: Render On Off Buttons
+// @name         5mu3: RenderOnOff
 // @namespace    http://tampermonkey.net/
 // @version      0.2
 // @description  Allow you to toggle render on/off to increase FPS.
