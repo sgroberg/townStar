@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         5mu3_: Key Commands
-// @namespace    http://tampermonkey.net/
+// @name         5mu3:KeyMap
+// @namespace    mailto:sgroberg@gmail.com
 // @version      1.2
 // @description  Bind key press to actions
 // @author       5mu3_
@@ -12,24 +12,18 @@
 
 $(function() {
 
-    ///////////////////////
-    // HOW TO USE SCRIPT //
-    ///////////////////////
-
+    // *** HOW TO USE SCRIPT *** //
     // 1. Click a tile on your town.
     // 2. Press a key that binds to a function.
 
-    ///////////
-    // NOTES //
-    ///////////
-
+    // *** NOTES *** //
     // 1. Sometimes when I build a dirt road, and then remove another tile, the dirt road doesn't auto complete.
-    // 2. You might want to comment out the remove bind if you are worried you might destroy a building by accident.
+    // Changed Remove to require Shift-R
+    // ToDo: add lumberack, upgrade road,
 
     // keybinds to trigger functions
     const binds = {
         "R":"remove",               // remove tile
-        "u":"upgrade",               // upgrade dirt
         "d":"dirtRoad",             // build and auto complete dirt road
         "1":"buildFarm",            // open build menu to farm tab
         "2":"buildRanch",           // open build menu to ranch tab
@@ -38,10 +32,7 @@ $(function() {
         "5":"buildTrade",           // open build menu to trade tab
         "t":"tree",                 // build and auto complete tree
         "w":"windMill",             // build and auto complete Wind Mill
-        "f":"farm",                 // Build and auto complete farm
-        "l":"Lumberjack_House",            // Build and auto complete lumberjack
-        //"a":"availableDepot"        // Reset the const availableDepots
-        "s":"Sugar_Cane_Field"                // build and auto complete sugarcane
+        "f":"farm"                 // Build and auto complete farm
     };
     // Item to try to sell
     const itemsToSell = [
@@ -62,7 +53,7 @@ $(function() {
 
         switch(value){
             case "remove": remove(); break;
-            case "cancel": remove(); break;
+            //case "cancel": remove(); break;
             case "dirtRoad": dirtRoad(); break;
             case "buildFarm": buildMenu("Farm"); break;
             case "buildRanch": buildMenu("Ranch"); break;
@@ -72,9 +63,6 @@ $(function() {
             case "tree": tree(); break;
             case "windMill": windMill(); break;
             case "farm": farm(); break;
-            case "Lumberjack_House": Lumberjack_House(); break;
-            case "availableDepot": availableDepot(); break;
-            case "Sugar_Cane_Field": Sugar_Cane_Field(); break;
             default:
                 console.log("Can't find function [" + value + "]");
         }
@@ -84,7 +72,6 @@ $(function() {
     /**
      * Build and complete a "Pinot Noir Vines".
      */
-
     async function grapes(){
 
         if( $('.hud-store-button:visible').length ){
@@ -117,28 +104,6 @@ $(function() {
 
             // buy dirt road
             e = await waitForProduct('Tree');
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
-    /**
-     * Build and complete a Sugar_Cane_Field
-     */
-    async function Sugar_Cane_Field(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Farm");
-
-            // buy dirt road
-            e = await waitForProduct('Sugar_Cane_Field');
             e.click();
 
             // complete the building
@@ -192,28 +157,6 @@ $(function() {
 
     }
 
-   /**
-     * Build and complete a Farm
-     */
-    async function Lumberjack_House(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Farm");
-
-            // buy farm
-            e = await waitForProduct('Lumberjack_House');
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
     /**
      * Build and complete a dirt road.
      */
@@ -237,48 +180,8 @@ $(function() {
     }
 
     /**
-     * Upgrade a dirt road.
-     */
-    async function upgradeRoad(){
-
-        if($('.menu-upgrade:visible').length){
-            $('.menu-upgrade .upgrade').click();
-        }else if($('.menu-cancel:visible').length){
-            $('.menu-cancel .upgrade').click();
-        }else{
-            return;
-        }
-
-        // ToDo: hide menu that appears when you remove a tree/marsh etc
-        $('#CancelItem-confirm').hide();
-        setTimeout(function(){
-            $('#CancelItem-confirm .yes').click();
-            $('#CancelItem-confirm').show();
-        },500);
-
-
-    }
-
-
-    /**
      * Remove a building.
      */
-
-    /**
-     * Build and list of depots".
-     */
-
-   function availableDepot(){
-
-      let availableDepots = [...Game.town.FindObjectsOfType('Express_Depot'), ...Game.town.FindObjectsOfType('Trade_Depot')];
-      console.log(`there are ${availableDepots.length} available depots`);
-
-     // let depotObj = availableDepots[Math.floor(Math.random() * (availableDepots.length) + 1)];
-
-     let craftTarget = document.getElementById("trade-craft-target");
-     craftTarget.querySelector('').click();
- }
-
     function remove(){
 
         if($('.menu-remove:visible').length){
@@ -339,9 +242,7 @@ $(function() {
 
     }
 
-    ////////////
-    // UTLITY //
-    ////////////
+    // *** UTLITY *** //
 
     /**
      * Wait for element to load and return the element
