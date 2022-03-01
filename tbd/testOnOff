@@ -1,0 +1,107 @@
+// ==UserScript==
+// @name         5mu3_: Test On Off Buttons
+// @namespace    http://tampermonkey.net/
+// @version      0.3
+// @description  toggle test
+// @author       5mu3
+// @credits      Kaif0naft / MohKari
+// @match        https://townstar.sandbox-games.com/launch
+// @grant        none
+// @run-at       document-start
+// @require      https://code.jquery.com/jquery-3.6.0.min.js
+// ==/UserScript==
+
+(function() {
+
+    ///////////////////////
+    // HOW TO USE SCRIPT //
+    ///////////////////////
+
+    // 1. Toggle test "on/off" buttons.
+
+    // test is on by default
+    let test = true;
+
+    // observer to check if script should run or not, script wont run if you already have a town placed.
+    let observer = new MutationObserver(function(m){
+
+        // hud-right must exist
+        if($('.hud-right').length){
+
+            console.log('SCRIPT "test-on-off" HAS STARTED.');
+
+            // dont watch anymore
+            observer.disconnect();
+
+            // run
+            addButton();
+
+        }
+
+    });
+    observer.observe(document, {childList: true , subtree: true});
+
+        /**
+     * log depots to console
+     */
+    function activateSelling() {
+        let availableDepots = [...Game.town.FindObjectsOfType('Express_Depot'), ...Game.town.FindObjectsOfType('Trade_Depot')];
+        console.log(`${availableDepots.length} depots: ${test} `);
+        toggleTest();
+    }
+
+    /**
+     * Add restart button HTML
+     */
+    function addButton(){
+
+        // add button with listener
+        let html = '<button id="sg-test-button"/>testing fctn</button>';
+        $('.hud-right').after(html);
+
+        // bind function
+        $("#sg-test-button").click(activateSelling);
+
+        // add some simple css to the button
+        $("#sg-test-button").css({
+            'width':'92%',
+            'padding':'10px',
+            'margin-top':'10px',
+            'border-radius':'5px',
+            'border':'solid 1px #ccc',
+            'background-color':'#28a745'
+        });
+
+    }
+
+    /**
+     * Toggles test on/off
+     * @return {[type]} [description]
+     */
+    function toggleTest(){
+
+        if(test == true){
+
+            test = false;
+            //activateSelling
+            $("#sg-test-button").html("OFF");
+            $("#sg-test-button").css({
+                'background-color':'#dc3545'
+            });
+
+        }else{
+
+            test = true;
+            //activateSelling
+            $("#sg-test-button").html(" ON ");
+            $("#sg-test-button").css({
+                'background-color':'#28a745'
+            });
+
+
+        }
+
+    }
+
+
+})();
