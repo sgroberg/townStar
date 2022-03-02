@@ -41,26 +41,17 @@
     });
     observer.observe(document, {childList: true , subtree: true});
 
-        /**
-     * log depots to console
-     */
-    function activateSelling() {
-        let availableDepots = [...Game.town.FindObjectsOfType('Express_Depot'), ...Game.town.FindObjectsOfType('Trade_Depot')];
-        console.log(`${availableDepots.length} depots: ${test} `);
-        toggleTest();
-    }
-
     /**
      * Add restart button HTML
      */
     function addButton(){
 
         // add button with listener
-        let html = '<button id="sg-test-button"/>testing fctn</button>';
+        let html = '<button id="sg-test-button"/>test</button>';
         $('.hud-right').after(html);
 
         // bind function
-        $("#sg-test-button").click(activateSelling);
+        $("#sg-test-button").click(toggletest);
 
         // add some simple css to the button
         $("#sg-test-button").css({
@@ -78,13 +69,13 @@
      * Toggles test on/off
      * @return {[type]} [description]
      */
-    function toggleTest(){
+    function toggletest(){
 
         if(test == true){
 
             test = false;
-            //activateSelling
-            $("#sg-test-button").html("OFF");
+            //app
+            $("#sg-test-button").html("Off");
             $("#sg-test-button").css({
                 'background-color':'#dc3545'
             });
@@ -92,8 +83,8 @@
         }else{
 
             test = true;
-            //activateSelling
-            $("#sg-test-button").html(" ON ");
+            //app
+            $("#sg-test-button").html("On");
             $("#sg-test-button").css({
                 'background-color':'#28a745'
             });
@@ -102,6 +93,5 @@
         }
 
     }
-
 
 })();
