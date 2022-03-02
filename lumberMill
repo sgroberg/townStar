@@ -53,7 +53,7 @@
         $('.hud-right').after(html);
 
         // bind function
-        $("#sg-lumber-button").click(toggle);
+        $("#sg-lumber-button").click(checkLumber);
 
         // add some simple css to the button
         $("#sg-lumber-button").css({
@@ -95,47 +95,27 @@
         }
 
     }
-    function lumberMill(){
 
-        if(lumber == true){
-
-            lumber < 1;
-            // *** Start Lumber Mill  ***
-            $("#sg-lumber-button").html("Lumber:On");
-            $("#sg-lumber-button").css({
-                'background-color':'#dc3545'
-            });
-
-        }else{
-
-            lumber > 1;
-            //*** Stop Lumber Mill ***
-            $("#sg-lumber-button").html("Lumber:idle");
-            $("#sg-lumber-button").css({
-                'background-color':'#28a745'
-            });
-
-
-        }
-
-    }
     function checkLumber() {
         const lumberCountToSwitchAt = 1;
         const lumberMill = Game.town.FindObjectType('Lumber_Mill').logicObject;
-        const data = lumberMill.data;
+        const data = lumberMill.data; // ToDo Multiple Lumber_Mills
         const lumberCount = Game.town.GetStoredCrafts().Lumber || 0;
 
         if(lumberCount <= lumberCountToSwitchAt&& data.craft !== 'Lumber') {
             console.log('Switching on Lumber Mill');
             // turn on Lumber Mill
             lumber.SetCraft('Lumber');
-
+            lumber = true;
+            toggle();
         }
 
         if(lumberCount > lumberCountToSwitchAt && data.craft == 'Lumber') {
             console.log('Switching off Lumber Mill');
             // turn off Lumber Mill
             lumber.ResetCraft('Lumber');
+            lumber = false;
+            toggle();
         }
 
     }
