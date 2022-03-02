@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         5mu3:Lumber2
+// @name         5mu3:lumberMill
 // @namespace    mailto:sgroberg@gmail.com
 // @version      1.
-// @description  {Turns off Lumber Mill at 2}
+// @description  {Turns off Lumber Mill on/off with button}
 // @author       5mu3_
 // @match        https://townstar.sandbox-games.com/launch
 // @grant        none
@@ -30,14 +30,15 @@
         // hud-right must exist
         if($('.hud-right').length){
 
-            console.log('SCRIPT "Lumber2" HAS STARTED.');
+            console.log(`SCRIPT: LumberMill on ${document.URL}`);
 
             // dont watch anymore
             observer.disconnect();
 
-            // run
-            activateLumberManagement();
+            // *** run ***
+            // activateLumberManagement();
             addButton();
+            activateLumberManagement();
 
         }
 
@@ -85,7 +86,7 @@
     function addButton(){
 
         // add button with listener
-        let html = '<button id="sg-lumber-button"/>Lumber fctcn</button>';
+        let html = '<button id="sg-lumber-button"/>Lumber ... </button>';
         $('.hud-right').after(html);
 
         // bind function
