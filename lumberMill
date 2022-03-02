@@ -19,7 +19,8 @@
     // 1. Display Lumber Mills status button.
 
     // Get the number of lumber
-    let lumberCount = Game.town.GetStoredCrafts().Lumber || 0;
+    // let lumberCount = Game.town.GetStoredCrafts().Lumber || 0;
+    let lumber = true;
 
     // ToDo Get the number of Lumber_Mills
 
