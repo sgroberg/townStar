@@ -49,11 +49,11 @@
     function addButton(){
 
         // add button with listener
-        let html = '<button id="sg-lumber-button"/>lumber</button>';
+        let html = '<button id="sg-lumber-button"/>lumber ...</button>';
         $('.hud-right').after(html);
 
         // bind function
-        $("#sg-lumber-button").click(checkLumber);
+        $("#sg-lumber-button").click(toggle);
 
         // add some simple css to the button
         $("#sg-lumber-button").css({
@@ -73,11 +73,12 @@
      */
     function toggle(){
 
+        // checknumber();
         if(lumber == true){
 
             lumber = false;
             //app
-            $("#sg-lumber-button").html("Off");
+            $("#sg-lumber-button").html("running");
             $("#sg-lumber-button").css({
                 'background-color':'#dc3545'
             });
@@ -86,7 +87,7 @@
 
             lumber = true;
             //app
-            $("#sg-lumber-button").html("On");
+            $("#sg-lumber-button").html("idle");
             $("#sg-lumber-button").css({
                 'background-color':'#28a745'
             });
@@ -97,17 +98,16 @@
     }
 
     function checkLumber() {
-        const lumberCountToSwitchAt = 1;
-        const lumberMill = Game.town.FindObjectType('Lumber_Mill').logicObject;
-        const data = lumberMill.data; // ToDo Multiple Lumber_Mills
-        const lumberCount = Game.town.GetStoredCrafts().Lumber || 0;
+        let lumberCountToSwitchAt = 1;
+        let lumberMill = Game.town.FindObjectType('Lumber_Mill').logicObject;
+        let data = lumberMill.data; // ToDo Multiple Lumber_Mills
+        let lumberCount = Game.town.GetStoredCrafts().Lumber || 0;
 
         if(lumberCount <= lumberCountToSwitchAt&& data.craft !== 'Lumber') {
             console.log('Switching on Lumber Mill');
             // turn on Lumber Mill
-            lumber.SetCraft('Lumber');
+            // lumber.SetCraft('Lumber');
             lumber = true;
-            toggle();
         }
 
         if(lumberCount > lumberCountToSwitchAt && data.craft == 'Lumber') {
@@ -115,7 +115,6 @@
             // turn off Lumber Mill
             lumber.ResetCraft('Lumber');
             lumber = false;
-            toggle();
         }
 
     }
