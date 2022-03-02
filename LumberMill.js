@@ -38,7 +38,7 @@
             // *** run ***
             // activateLumberManagement();
             addButton();
-            activateLumberManagement();
+            // activateLumberManagement();
 
         }
 
@@ -90,7 +90,7 @@
         $('.hud-right').after(html);
 
         // bind function
-        // $("#sg-lumber-button").click({onClick});
+        $("#sg-lumber-button").click(activateLumberManagement);
 
         // add some simple css to the button
         $("#sg-lumber-button").css({
