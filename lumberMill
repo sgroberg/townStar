@@ -20,7 +20,11 @@
 
     // Get the number of lumber
     // let lumberCount = Game.town.GetStoredCrafts().Lumber || 0;
+<<<<<<< HEAD
     let lumber = false;
+=======
+    let lumber = true;
+>>>>>>> 666f13baa31079affa6f81e5b2367badf6dd936e
 
     // ToDo Get the number of Lumber_Mills
 
@@ -78,6 +82,7 @@
      */
     function toggle(){
 
+        // checknumber();
         if(lumber == true){
 
             // lumber = false;
@@ -102,11 +107,22 @@
     }
 
     function checkLumber() {
+<<<<<<< HEAD
+=======
+        let lumberCountToSwitchAt = 1;
+        let lumberMill = Game.town.FindObjectType('Lumber_Mill').logicObject;
+        let data = lumberMill.data; // ToDo Multiple Lumber_Mills
+        let lumberCount = Game.town.GetStoredCrafts().Lumber || 0;
+>>>>>>> 666f13baa31079affa6f81e5b2367badf6dd936e
 
         if(lumberCount <= lumberCountToSwitchAt&& data.craft !== 'Lumber') {
             console.log('Switching on Lumber Mill');
             // turn on Lumber Mill
+<<<<<<< HEAD
             lumber.SetCraft('Lumber');
+=======
+            // lumber.SetCraft('Lumber');
+>>>>>>> 666f13baa31079affa6f81e5b2367badf6dd936e
             lumber = true;
         }
 
