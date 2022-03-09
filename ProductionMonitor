@@ -224,7 +224,8 @@
             'background-color':'#fff',
             'width':'92%',
             'margin-top':'10px',
-            'border-radius':'5px',
+            'border-radius':'25px',
+            'padding: 20px',
             'opacity':'0.8',
             'border-spacing':'10px',
             'border-collapse':'separate'
