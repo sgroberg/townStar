@@ -12,20 +12,14 @@
 
 $(function() {
 
-    ///////////////////////
-    // HOW TO USE SCRIPT //
-    ///////////////////////
+     // *** NOTES ***
 
     // 1. Click a tile on your town.
     // 2. Press a key that binds to a function.
 
-    ///////////
-    // NOTES //
-    ///////////
+    // ToDo: Sometimes the dirt road doesn't auto complete.
 
-    // 1. Sometimes the dirt road doesn't auto complete.
-
-    // keybinds to trigger functions
+    // * keybinds to trigger functions *
     const binds = {
         "1":"buildFarm",            //build menu - farm tab
         "2":"buildRanch",           //build menu - ranch tab
@@ -35,13 +29,13 @@ $(function() {
         "a":"salt",                 //build / complete salt
         "d":"dirtRoad",             //build / complete dirt road
         "f":"farmHouse",            //Build / complete farm
-        "l":"Lfumberjack_House",     //Build / complete lumberjack
+        "l":"Lumberjack_House",     //Build / complete lumberjack
         "R":"remove",               //remove tile
         "t":"tree",                 //build / complete tree
         "w":"windMill",             //build / complete Wind Mill
         "u":"SugarcaneField",       //build / complete Sugarcane Field
     };
-    // Item to try to sell
+    // * Item to try to sell *
     const itemsToSell = [
         { craft: 'Candy_Canes', minAmt: 0 },
         { craft: 'Peppermint', minAmt: 1 },
@@ -49,13 +43,13 @@ $(function() {
 
     let availableDepots = [];
 
-    // on "key" press, do value()
+    // * on "key" press, do value() *
     $(document).on("keypress", function (e) {
 
-        // convert keycode into character
+        // * convert keycode into character *
         let char = String.fromCharCode(e.which);
 
-        // get value from binds
+        // * get value from binds *
         let value = binds[char];
 
         switch(value){
@@ -79,9 +73,8 @@ $(function() {
         }
     });
 
-    /**
-     * Build and complete an item
-     */
+
+     // *** Build and complete an item ***
 
     async function buildThis(menu,item){
 
@@ -98,16 +91,12 @@ $(function() {
 
             // complete the building
             await completeBuilding()
-
         }
-
     }
 
-    /**
-     * Remove a building.
-     */
+     // *** Remove a building ***
 
-    function remove(){
+        function remove(){
 
         if($('.menu-remove:visible').length){
             $('.menu-remove .remove').click();
@@ -126,9 +115,9 @@ $(function() {
 
     }
 
-    /**
-     * Open build menu to specified tab.
-     */
+
+     // *** specified store/menu tab ****
+
     async function buildMenu(tab){
 
         //
@@ -146,7 +135,7 @@ $(function() {
             return;
         }
 
-        // open store and select tab
+        // * open store and select tab *
         if( $('.hud-store-button:visible').length ){
 
             e = await waitForElement('.hud-store-button');
@@ -157,19 +146,16 @@ $(function() {
 
         }
 
-        // select tab ( if store already open )
+        // * select tab ( if store already open ) *
         if( $('.store .footer-row:visible').length ){
 
             e = await waitForElement('.store .footer-row button:eq(' + index + ')');
             e.click();
-
         }
-
     }
 
-    ////////////
-    // UTLITY //
-    ////////////
+    // *** UTLITY **
+
 
     /**
      * Wait for element to load and return the element
