@@ -39,7 +39,7 @@ $(function() {
         "R":"remove",               //remove tile
         "t":"tree",                 //build / complete tree
         "w":"windMill",             //build / complete Wind Mill
-        "g":"Sugarcane Field",      //testing function
+        "u":"Sugarcane Field",      //build / complete Sugarcane Field
 
     };
     // Item to try to sell
@@ -65,16 +65,18 @@ $(function() {
             case "buildTerrain": buildMenu("Terrain"); break;
             case "buildIndustrial": buildMenu("Industrial"); break;
             case "buildTrade": buildMenu("Trade"); break;
-            //
+//
             case "cancel": remove(); break;
             case "remove": remove(); break; // R
-            case "dirtRoad": dirtRoad(); break; // d
-            case "tree": tree(); break; // t
-            case "salt": salt(); break; // a
-            case "windMill": windMill(); break; // w
-            case "farmHouse": farmHouse(); break; // f
-            case "Lumberjack_House": Lumberjack_House(); break; // l
-            case "Sugarcanefield": buildThis('Farm','Sugarcane Field'); break // g
+            case "dirtRoad": buildThis('Terrain','Dirt Road'); break; // d
+ //         case "dirtRoad": dirtRoad(); break; // d
+            case "Sugarcane field": buildThis('Farm','Sugarcane Field'); break // u
+            case "tree": buildThis('Farm','Tree'); break; // t
+            case "salt": buildThis('Farm','Salt'); break; // a
+            case "windMill": buildThis('Farm','Wind Mill'); break; // w
+            case "farmHouse": buildThis('Farm, Farm House'); break; // f
+            case "Lumberjack_House": buildThis('Farm','Lumberjack House'); break; // l
+
             //
             default:
                 console.log("Can't find function [" + value + "]");
@@ -97,138 +99,6 @@ $(function() {
             // buy dirt road
             console.log("this is the item ",item);
             e = await waitForProduct(item);
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
-    /**
-     * Build and complete a tree.
-     */
-    async function tree(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Farm");
-
-            // buy dirt road
-            e = await waitForProduct('Tree');
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
-    /**
-     * Build and complete a salt.
-     */
-    async function salt(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Farm");
-
-            // buy dirt road
-            e = await waitForProduct('Salt');
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
-    /**
-     * Build and complete a Wind Mill.
-     */
-    async function windMill(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Farm");
-
-            // buy wind mill
-            e = await waitForProduct('Wind Mill');
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
-    /**
-     * Build and complete a Farm
-     */
-    async function farmHouse(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Farm");
-
-            // buy farm
-            e = await waitForProduct('Farm House');
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
-   /**
-     * Build and complete a Farm
-     */
-    async function Lumberjack_House(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Farm");
-
-            // buy farm
-            e = await waitForProduct('Lumberjack House');
-            e.click();
-
-            // complete the building
-            await completeBuilding()
-
-        }
-
-    }
-
-    /**
-     * Build and complete a dirt road.
-     */
-    async function dirtRoad(){
-
-        if( $('.hud-store-button:visible').length ){
-
-            let e;
-
-            await buildMenu("Terrain");
-
-            // buy dirt road
-            e = await waitForProduct('Dirt Road');
             e.click();
 
             // complete the building
