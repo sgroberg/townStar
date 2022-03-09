@@ -35,12 +35,11 @@ $(function() {
         "a":"salt",                 //build / complete salt
         "d":"dirtRoad",             //build / complete dirt road
         "f":"farmHouse",            //Build / complete farm
-        "l":"Lumberjack_House",     //Build / complete lumberjack
+        "l":"Lfumberjack_House",     //Build / complete lumberjack
         "R":"remove",               //remove tile
         "t":"tree",                 //build / complete tree
         "w":"windMill",             //build / complete Wind Mill
-        "u":"Sugarcane Field",      //build / complete Sugarcane Field
-
+        "u":"SugarcaneField",       //build / complete Sugarcane Field
     };
     // Item to try to sell
     const itemsToSell = [
@@ -66,22 +65,18 @@ $(function() {
             case "buildIndustrial": buildMenu("Industrial"); break;
             case "buildTrade": buildMenu("Trade"); break;
 //
-            case "cancel": remove(); break;
             case "remove": remove(); break; // R
             case "dirtRoad": buildThis('Terrain','Dirt Road'); break; // d
- //         case "dirtRoad": dirtRoad(); break; // d
-            case "Sugarcane field": buildThis('Farm','Sugarcane Field'); break // u
+            case "SugarcaneField": buildThis('Farm','Sugarcane Field'); break // u
             case "tree": buildThis('Farm','Tree'); break; // t
             case "salt": buildThis('Farm','Salt'); break; // a
             case "windMill": buildThis('Farm','Wind Mill'); break; // w
-            case "farmHouse": buildThis('Farm, Farm House'); break; // f
+            case "farmHouse": buildThis('Farm', 'Farm House'); break; // f
             case "Lumberjack_House": buildThis('Farm','Lumberjack House'); break; // l
-
             //
             default:
                 console.log("Can't find function [" + value + "]");
         }
-
     });
 
     /**
