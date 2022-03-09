@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         5mu3:KeyMap
-// @namespace    mailto:sgroberg@gmail.com
-// @version      1.2
+// @name         5mu3_: Key Commands
+// @namespace    http://tampermonkey.net/
+// @version      1.3
 // @description  Bind key press to actions
 // @author       5mu3_
 // @match        https://townstar.sandbox-games.com/launch
@@ -12,27 +12,36 @@
 
 $(function() {
 
-    // *** HOW TO USE SCRIPT *** //
+    ///////////////////////
+    // HOW TO USE SCRIPT //
+    ///////////////////////
+
     // 1. Click a tile on your town.
     // 2. Press a key that binds to a function.
 
-    // *** NOTES *** //
+    ///////////
+    // NOTES //
+    ///////////
+
     // 1. Sometimes when I build a dirt road, and then remove another tile, the dirt road doesn't auto complete.
-    // Changed Remove to require Shift-R
-    // ToDo: add lumberack, upgrade road,
+    // 2. You might want to comment out the remove bind if you are worried you might destroy a building by accident.
 
     // keybinds to trigger functions
     const binds = {
-        "R":"remove",               // remove tile
-        "d":"dirtRoad",             // build and auto complete dirt road
         "1":"buildFarm",            // open build menu to farm tab
         "2":"buildRanch",           // open build menu to ranch tab
         "3":"buildTerrain",         // open build menu to terrain tab
         "4":"buildIndustrial",      // open build menu to industrial tab
         "5":"buildTrade",           // open build menu to trade tab
+        "a":"salt",                 // build and auto complete salt
+        "d":"dirtRoad",             // build and auto complete dirt road
+        "f":"farmHouse",            // Build and auto complete farm
+        "l":"Lumberjack_House",     // Build and auto complete lumberjack
+        "R":"remove",               // remove tile
         "t":"tree",                 // build and auto complete tree
         "w":"windMill",             // build and auto complete Wind Mill
-        "f":"farm"                 // Build and auto complete farm
+        "g":"Grapes",               // testing function
+
     };
     // Item to try to sell
     const itemsToSell = [
@@ -52,17 +61,22 @@ $(function() {
         let value = binds[char];
 
         switch(value){
-            case "remove": remove(); break;
-            //case "cancel": remove(); break;
-            case "dirtRoad": dirtRoad(); break;
             case "buildFarm": buildMenu("Farm"); break;
             case "buildRanch": buildMenu("Ranch"); break;
             case "buildTerrain": buildMenu("Terrain"); break;
             case "buildIndustrial": buildMenu("Industrial"); break;
             case "buildTrade": buildMenu("Trade"); break;
-            case "tree": tree(); break;
-            case "windMill": windMill(); break;
-            case "farm": farm(); break;
+            //
+            case "cancel": remove(); break;
+            case "remove": remove(); break; // R
+            case "dirtRoad": dirtRoad(); break; // d
+            case "tree": tree(); break; // t
+            case "salt": salt(); break; // a
+            case "windMill": windMill(); break; // w
+            case "farmHouse": farmHouse(); break; // f
+            case "Lumberjack_House": Lumberjack_House(); break; // l
+            case "Grapes": Grapes('Farm','Sugarcane Field')
+            //
             default:
                 console.log("Can't find function [" + value + "]");
         }
@@ -70,18 +84,20 @@ $(function() {
     });
 
     /**
-     * Build and complete a "Pinot Noir Vines".
+     * Build and complete an item
      */
-    async function grapes(){
+
+    async function Grapes(menu,item){
 
         if( $('.hud-store-button:visible').length ){
 
             let e;
 
-            await buildMenu("Farm");
+            await buildMenu(menu);
 
             // buy dirt road
-            e = await waitForProduct('Pinot Noir Vines');
+            console.log("this is the item ",item);
+            e = await waitForProduct(item);
             e.click();
 
             // complete the building
@@ -104,6 +120,28 @@ $(function() {
 
             // buy dirt road
             e = await waitForProduct('Tree');
+            e.click();
+
+            // complete the building
+            await completeBuilding()
+
+        }
+
+    }
+
+    /**
+     * Build and complete a salt.
+     */
+    async function salt(){
+
+        if( $('.hud-store-button:visible').length ){
+
+            let e;
+
+            await buildMenu("Farm");
+
+            // buy dirt road
+            e = await waitForProduct('Salt');
             e.click();
 
             // complete the building
@@ -138,7 +176,7 @@ $(function() {
     /**
      * Build and complete a Farm
      */
-    async function farm(){
+    async function farmHouse(){
 
         if( $('.hud-store-button:visible').length ){
 
@@ -147,7 +185,29 @@ $(function() {
             await buildMenu("Farm");
 
             // buy farm
-            e = await waitForProduct('Farm');
+            e = await waitForProduct('Farm House');
+            e.click();
+
+            // complete the building
+            await completeBuilding()
+
+        }
+
+    }
+
+   /**
+     * Build and complete a Farm
+     */
+    async function Lumberjack_House(){
+
+        if( $('.hud-store-button:visible').length ){
+
+            let e;
+
+            await buildMenu("Farm");
+
+            // buy farm
+            e = await waitForProduct('Lumberjack House');
             e.click();
 
             // complete the building
@@ -182,6 +242,7 @@ $(function() {
     /**
      * Remove a building.
      */
+
     function remove(){
 
         if($('.menu-remove:visible').length){
@@ -242,7 +303,9 @@ $(function() {
 
     }
 
-    // *** UTLITY *** //
+    ////////////
+    // UTLITY //
+    ////////////
 
     /**
      * Wait for element to load and return the element
