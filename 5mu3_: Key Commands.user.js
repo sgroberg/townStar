@@ -2,7 +2,7 @@
 // @name         5mu3_: Key Commands
 // @namespace    http://tampermonkey.net/
 // @version      1.3
-// @description  Bind key press to actions
+// @description  Bind keys to actions
 // @author       5mu3_
 // @match        https://townstar.sandbox-games.com/launch
 // @grant        none
@@ -23,24 +23,23 @@ $(function() {
     // NOTES //
     ///////////
 
-    // 1. Sometimes when I build a dirt road, and then remove another tile, the dirt road doesn't auto complete.
-    // 2. You might want to comment out the remove bind if you are worried you might destroy a building by accident.
+    // 1. Sometimes the dirt road doesn't auto complete.
 
     // keybinds to trigger functions
     const binds = {
-        "1":"buildFarm",            // open build menu to farm tab
-        "2":"buildRanch",           // open build menu to ranch tab
-        "3":"buildTerrain",         // open build menu to terrain tab
-        "4":"buildIndustrial",      // open build menu to industrial tab
-        "5":"buildTrade",           // open build menu to trade tab
-        "a":"salt",                 // build and auto complete salt
-        "d":"dirtRoad",             // build and auto complete dirt road
-        "f":"farmHouse",            // Build and auto complete farm
-        "l":"Lumberjack_House",     // Build and auto complete lumberjack
-        "R":"remove",               // remove tile
-        "t":"tree",                 // build and auto complete tree
-        "w":"windMill",             // build and auto complete Wind Mill
-        "g":"Grapes",               // testing function
+        "1":"buildFarm",            //build menu - farm tab
+        "2":"buildRanch",           //build menu - ranch tab
+        "3":"buildTerrain",         //build menu - terrain tab
+        "4":"buildIndustrial",      //build menu - industrial tab
+        "5":"buildTrade",           //build menu - trade tab
+        "a":"salt",                 //build / complete salt
+        "d":"dirtRoad",             //build / complete dirt road
+        "f":"farmHouse",            //Build / complete farm
+        "l":"Lumberjack_House",     //Build / complete lumberjack
+        "R":"remove",               //remove tile
+        "t":"tree",                 //build / complete tree
+        "w":"windMill",             //build / complete Wind Mill
+        "g":"Sugarcane Field",      //testing function
 
     };
     // Item to try to sell
@@ -75,7 +74,7 @@ $(function() {
             case "windMill": windMill(); break; // w
             case "farmHouse": farmHouse(); break; // f
             case "Lumberjack_House": Lumberjack_House(); break; // l
-            case "Grapes": Grapes('Farm','Sugarcane Field')
+            case "Sugarcanefield": buildThis('Farm','Sugarcane Field'); break // g
             //
             default:
                 console.log("Can't find function [" + value + "]");
@@ -87,7 +86,7 @@ $(function() {
      * Build and complete an item
      */
 
-    async function Grapes(menu,item){
+    async function buildThis(menu,item){
 
         if( $('.hud-store-button:visible').length ){
 
