@@ -35,11 +35,11 @@ $(function() {
         "w":"windMill",             //build / complete Wind Mill
         "u":"SugarcaneField",       //build / complete Sugarcane Field
     };
-    // * Item to try to sell *
+    / * Item to try to sell *
     const itemsToSell = [
         { craft: 'Candy_Canes', minAmt: 0 },
         { craft: 'Peppermint', minAmt: 1 },
-    ];
+    ]; */
 
     let availableDepots = [];
 
