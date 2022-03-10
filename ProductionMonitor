@@ -248,7 +248,8 @@
         // add some simple css to the button
         $("#mk-prm-reset").css({
             'width':'92%',
-            'padding':'10px',
+            'border-radius':'25px',
+            'padding: 20px',
             'margin-top':'10px',
             'border-radius':'5px',
             'border':'solid 1px #ccc',
