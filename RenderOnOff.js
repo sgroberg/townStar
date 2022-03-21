@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         5mu3: RenderOnOff
+// @name         5mu3: OnOff
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      1.0
 // @description  Allow you to toggle render on/off to increase FPS.
 // @author       5mu3_ based on MohKari
 // @match        https://townstar.sandbox-games.com/launch
