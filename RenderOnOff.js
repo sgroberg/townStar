@@ -4,7 +4,6 @@
 // @version      0.2
 // @description  Allow you to toggle render on/off to increase FPS.
 // @author       5mu3_ based on MohKari
-// @credits      Kaif0naft
 // @match        https://townstar.sandbox-games.com/launch
 // @grant        none
 // @run-at       document-start
@@ -47,7 +46,7 @@
     function addButton(){
 
         // add button with listener
-        let html = '<button id="sg-rof-button"/>Render On</button>';
+        let html = '<button id="sg-rof-button"/>> - <</button>';
         $('.hud-right').after(html);
 
         // bind function
@@ -75,7 +74,7 @@
 
             render = false;
             app.autoRender = false;
-            $("#sg-rof-button").html("Render Off");
+            $("#sg-rof-button").html("> O <");
             $("#sg-rof-button").css({
                 'background-color':'#dc3545'
             });
@@ -84,7 +83,7 @@
 
             render = true;
             app.autoRender = true;
-            $("#sg-rof-button").html("Render On");
+            $("#sg-rof-button").html("> - <");
             $("#sg-rof-button").css({
                 'background-color':'#28a745'
             });
